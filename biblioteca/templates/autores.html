@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block titulo %}Autores | Sistema de Biblioteca{% endblock %}
+{% block logo %}✍️{% endblock %}
+{% block subtitulo_cabecalho %}Gerenciamento de autores{% endblock %}
+{% block conteudo %}
+
+<section class="titulo-pagina">
+    <div>
+        <span class="subtitulo">CADASTROS</span>
+        <h2>Autores</h2>
+        <p>Cadastre e consulte os autores dos livros.</p>
+    </div>
+    <div class="contador">
+        <span class="contador-numero">{{ autores|length }}</span>
+        <span class="contador-texto">autor(es) cadastrado(s)</span>
+    </div>
+</section>
+
+<section class="card">
+    <div class="titulo-secao">
+        <div class="icone-secao">➕</div>
+        <div>
+            <h3>Cadastrar novo autor</h3>
+            <p>Preencha os dados abaixo para adicionar um autor.</p>
+        </div>
+    </div>
+    <form action="{{ url_for('cadastrar_autor') }}" method="POST">
+        <div class="linha-formulario">
+            <div class="campo">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite o nome do autor" required>
+            </div>
+            <div class="campo">
+                <label for="nacionalidade">Nacionalidade</label>
+                <input type="text" id="nacionalidade" name="nacionalidade" placeholder="Ex.: Brasileira">
+            </div>
+        </div>
+        <div class="area-botao">
+            <button type="submit" class="botao-principal">Cadastrar autor</button>
+        </div>
+    </form>
+</section>
+
+<section class="card">
+    <div class="titulo-secao">
+        <div class="icone-secao">✍️</div>
+        <div>
+            <h3>Autores cadastrados</h3>
+            <p>Confira os autores registrados no sistema.</p>
+        </div>
+    </div>
+    {% if autores %}
+    <div class="tabela-container">
+        <table>
+            <thead><tr><th>ID</th><th>Nome</th><th>Nacionalidade</th><th>Livros</th></tr></thead>
+            <tbody>
+                {% for autor in autores %}
+                <tr>
+                    <td><span class="id-aluno">#{{ autor.id }}</span></td>
+                    <td>
+                        <div class="nome-aluno">
+                            <div class="avatar">{{ autor.nome[0]|upper }}</div>
+                            <strong>{{ autor.nome }}</strong>
+                        </div>
+                    </td>
+                    <td>{{ autor.nacionalidade or '-' }}</td>
+                    <td>{{ autor.total_livros }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="sem-dados">
+        <div class="icone-vazio">✍️</div>
+        <h3>Nenhum autor cadastrado</h3>
+        <p>Utilize o formulário acima para cadastrar o primeiro autor.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

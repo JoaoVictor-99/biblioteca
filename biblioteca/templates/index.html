@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block subtitulo_cabecalho %}Organizando o acervo da sua biblioteca{% endblock %}
+{% block voltar %}{% endblock %}
+{% block conteudo %}
+<h2>Bem-vindo(a) ao sistema!</h2>
+<p>Selecione um módulo para começar:</p>
+
+<section class="menu">
+    <a href="{{ url_for('livros') }}" class="card">
+        <span>📚</span>
+        <h3>Acervo</h3>
+        <p>Consultar os livros cadastrados.</p>
+    </a>
+    <a href="{{ url_for('cadastrar_livro') }}" class="card">
+        <span>➕</span>
+        <h3>Cadastrar livro</h3>
+        <p>Adicionar um novo livro ao acervo.</p>
+    </a>
+    <a href="{{ url_for('autores') }}" class="card">
+        <span>✍️</span>
+        <h3>Autores</h3>
+        <p>Gerenciar os autores dos livros.</p>
+    </a>
+    <a href="{{ url_for('categorias') }}" class="card">
+        <span>🏷️</span>
+        <h3>Categorias</h3>
+        <p>Organizar os gêneros do acervo.</p>
+    </a>
+</section>
+{% endblock %}

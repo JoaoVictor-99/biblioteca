@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Sistema de Biblioteca{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <div class="cabecalho-conteudo">
+            <div class="logo-area">
+                <div class="logo">{% block logo %}📚{% endblock %}</div>
+                <div>
+                    <h1>Sistema de Biblioteca</h1>
+                    <p>{% block subtitulo_cabecalho %}Controle do acervo{% endblock %}</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block voltar %}<a href="/" class="botao-voltar">← Voltar ao início</a>{% endblock %}
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% for categoria, mensagem in mensagens %}
+                <div class="mensagem {{ categoria }}">{{ mensagem }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Sistema de Biblioteca © 2026</p>
+    </footer>
+
+</body>
+</html>

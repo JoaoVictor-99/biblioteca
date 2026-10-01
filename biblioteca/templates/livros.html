@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block titulo %}Acervo | Sistema de Biblioteca{% endblock %}
+{% block subtitulo_cabecalho %}Consulta do acervo{% endblock %}
+{% block conteudo %}
+
+<section class="titulo-pagina">
+    <div>
+        <span class="subtitulo">CONSULTA</span>
+        <h2>Acervo</h2>
+        <p>Consulte, edite e exclua os livros da biblioteca.</p>
+    </div>
+    <div class="contador">
+        <span class="contador-numero">{{ livros|length }}</span>
+        <span class="contador-texto">livro(s) encontrado(s)</span>
+    </div>
+</section>
+
+<section class="card">
+    <div class="titulo-secao">
+        <div class="icone-secao">📋</div>
+        <div>
+            <h3>Livros cadastrados</h3>
+            <p>Busque por título, autor ou categoria.</p>
+        </div>
+    </div>
+
+    <form method="GET" action="{{ url_for('livros') }}" class="form-busca">
+        <input type="text" name="busca" value="{{ busca }}" placeholder="Digite o título, autor ou categoria">
+        <button type="submit" class="botao-principal">Buscar</button>
+        <a href="{{ url_for('cadastrar_livro') }}" class="botao-secundario">+ Novo livro</a>
+    </form>
+
+    {% if livros %}
+    <div class="tabela-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th><th>Título</th><th>Autor</th><th>Categoria</th>
+                    <th>Ano</th><th>ISBN</th><th>Qtd.</th><th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livro in livros %}
+                <tr>
+                    <td><span class="id-aluno">#{{ livro.id }}</span></td>
+                    <td>
+                        <div class="nome-aluno">
+                            <div class="avatar">{{ livro.titulo[0]|upper }}</div>
+                            <strong>{{ livro.titulo }}</strong>
+                        </div>
+                    </td>
+                    <td>{{ livro.autor }}</td>
+                    <td><span class="professor-especialidade">{{ livro.categoria }}</span></td>
+                    <td>{{ livro.ano_publicacao or '-' }}</td>
+                    <td>{{ livro.isbn or '-' }}</td>
+                    <td>{{ livro.quantidade }}</td>
+                    <td class="acoes">
+                        <a href="{{ url_for('editar_livro', livro_id=livro.id) }}" class="botao-editar">Editar</a>
+                        <form action="{{ url_for('excluir_livro', livro_id=livro.id) }}" method="POST"
+                              class="form-inline" onsubmit="return confirm('Excluir este livro?')">
+                            <button type="submit" class="botao-excluir">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="sem-dados">
+        <div class="icone-vazio">📚</div>
+        <h3>Nenhum livro encontrado</h3>
+        <p>Cadastre um livro ou tente outra busca.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

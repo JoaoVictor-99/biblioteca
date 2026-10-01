@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block titulo %}Categorias | Sistema de Biblioteca{% endblock %}
+{% block logo %}🏷️{% endblock %}
+{% block subtitulo_cabecalho %}Gerenciamento de categorias{% endblock %}
+{% block conteudo %}
+
+<section class="titulo-pagina">
+    <div>
+        <span class="subtitulo">CADASTROS</span>
+        <h2>Categorias</h2>
+        <p>Cadastre e consulte as categorias dos livros.</p>
+    </div>
+    <div class="contador">
+        <span class="contador-numero">{{ categorias|length }}</span>
+        <span class="contador-texto">categoria(s) cadastrada(s)</span>
+    </div>
+</section>
+
+<section class="card">
+    <div class="titulo-secao">
+        <div class="icone-secao">➕</div>
+        <div>
+            <h3>Cadastrar nova categoria</h3>
+            <p>Preencha os dados abaixo para adicionar uma categoria.</p>
+        </div>
+    </div>
+    <form action="{{ url_for('cadastrar_categoria') }}" method="POST">
+        <div class="linha-formulario">
+            <div class="campo">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" placeholder="Ex.: Romance" required>
+            </div>
+            <div class="campo">
+                <label for="descricao">Descrição</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Descreva a categoria">
+            </div>
+        </div>
+        <div class="area-botao">
+            <button type="submit" class="botao-principal">Cadastrar categoria</button>
+        </div>
+    </form>
+</section>
+
+<section class="card">
+    <div class="titulo-secao">
+        <div class="icone-secao">🏷️</div>
+        <div>
+            <h3>Categorias cadastradas</h3>
+            <p>Confira as categorias registradas no sistema.</p>
+        </div>
+    </div>
+    {% if categorias %}
+    <div class="tabela-container">
+        <table>
+            <thead><tr><th>ID</th><th>Nome</th><th>Descrição</th><th>Livros</th></tr></thead>
+            <tbody>
+                {% for categoria in categorias %}
+                <tr>
+                    <td><span class="id-aluno">#{{ categoria.id }}</span></td>
+                    <td><span class="professor-especialidade">{{ categoria.nome }}</span></td>
+                    <td>{{ categoria.descricao or '-' }}</td>
+                    <td>{{ categoria.total_livros }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="sem-dados">
+        <div class="icone-vazio">🏷️</div>
+        <h3>Nenhuma categoria cadastrada</h3>
+        <p>Utilize o formulário acima para cadastrar a primeira categoria.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
